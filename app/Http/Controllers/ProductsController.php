@@ -5,8 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\view;
 
+use App\Product;
+
 class ProductsController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth',['except' =>['index','show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,8 @@ class ProductsController extends Controller
      */
     public function index()
     {
-        //
+        $products = Product::paginate(15);
+        return view('products.index',['products' => $products]);
     }
 
     /**
@@ -24,7 +30,8 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $product = new Product;
+        return view('products.create', ["product" => $product]);
     }
 
     /**
@@ -35,7 +42,11 @@ class ProductsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+           if( Product::create($request->all())){
+            return redirect('/');
+       }else{
+            return view('products.create');
+       }
     }
 
     /**
@@ -46,7 +57,7 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        //
+         return view('products.show', ['product' => Product::find($id) ]);
     }
 
     /**
@@ -57,7 +68,13 @@ class ProductsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $Product = Product::find($id);
+        if($Product != null){
+           return view('products.edit',['product' => $Product]);
+        }else{
+            return view('/');
+        }
+
     }
 
     /**
@@ -69,7 +86,17 @@ class ProductsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = Product::find($id);  
+        if($product != null){
+            $product->title = $request->title;
+            $product->description = $request->description;
+            $product->price = $request->price;
+            $product->save();
+            return redirect('/');
+        }else{
+            return view('products.edit',['product' => $Product]);
+        }
+
     }
 
     /**
@@ -80,6 +107,12 @@ class ProductsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = Product::find($id);
+        if($product != null){
+            Product::destroy($id);
+            return redirect('/productos');
+        }else{
+            
+        }
     }
 }
