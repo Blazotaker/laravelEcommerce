@@ -98,7 +98,7 @@ class ProductsController extends Controller
             $product->save();
             return redirect('/');
         }else{
-            return view('products.edit',['product' => $Product]);
+            return view('products.edit',['product' => $Product,'shopping_cart_id'=>$shopping_cart_id]);
         }
 
     }

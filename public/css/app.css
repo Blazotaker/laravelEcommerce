@@ -10898,3 +10898,14 @@ a.text-dark:focus {
   justify-content: center;
 }
 
+.card-product {
+  max-width: 600px;
+  margin: 1em;
+}
+
+.card-product.total {
+  margin-top: 1em;
+  padding-top: 1em;
+  border-top: solid 1px #eee;
+}
+

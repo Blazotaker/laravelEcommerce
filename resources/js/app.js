@@ -8,6 +8,24 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+const Vuex = require('vuex');
+
+window.store = new Vuex.Store({
+    state: {
+        productsCount: 2
+    },
+    mutations: {
+        increment(state) {
+            return state.productsCount++;
+        },
+        set(state, value) {
+            return state.productsCount = value;
+        }
+    }
+
+});
+
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -23,6 +41,9 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 Vue.component('products-component', require('./components/products/ProductsComponent').default);
 Vue.component('product-card-component', require('./components/products/ProductCardComponent').default);
 Vue.component('material-transition-group', require('./components/animations/MaterialCollectionComponent').default);
+Vue.component('add-product-button', require('./components/products/AddToCartComponent').default);
+Vue.component('products-counter-component', require('./components/shopping_cart/CounterComponent').default);
+Vue.component('products-shopping-cart-component', require('./components/products/ProductsShoppingCartComponent').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
